@@ -1,4 +1,10 @@
 {
+  "name": "hello monorepo",
+  "workspaces": [
+      "api/*",
+      "hello-app/*"
+  ],
+  "packageManager": "npm@8.19.3",
   "devDependencies": {
     "rome": "^11.0.0",
     "typescript": "^4.9.4"
