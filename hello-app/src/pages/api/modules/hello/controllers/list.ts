@@ -1,18 +1,14 @@
-import { Hello } from '../models/hello.ts'
+import { DataFetcher, HelloController } from 'api/interfaces/hello'
+import { Hello } from '../models/hello'
 
-export class HelloLister {
-    readonly name: "HelloLister";
-
-    constructor() {
+export class HelloLister implements HelloController {
+    constructor(private fetcher: DataFetcher) {
     }
 
     list(name: string): Hello[] {
-        let result: Hello[] = []
+        let result: Hello[] = [];
 
-        result.push(new Hello("John Doe"))
-        result.push(new Hello("Jane Doe"))
-
-        return result.filter(w => w.name.includes(name))
+        return this.fetcher.list(name);
     }
 
 }
