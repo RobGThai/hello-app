@@ -1,9 +1,11 @@
+import { injectable, inject } from "inversify";
 import { DataFetcher, HelloController } from 'api/interfaces/hello'
+import { TYPES } from 'api/interfaces/types'
 import { Hello } from '../models/hello'
 
-export class HelloLister implements HelloController {
-    constructor(private fetcher: DataFetcher) {
-    }
+@injectable()
+class HelloLister implements HelloController {
+    @inject(TYPES.DataFetcher) private fetcher: DataFetcher
 
     list(name: string): Hello[] {
         let result: Hello[] = [];
@@ -12,3 +14,5 @@ export class HelloLister implements HelloController {
     }
 
 }
+
+export { HelloLister };
