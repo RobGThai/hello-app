@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import {describe, expect, test} from '@jest/globals';
 import { RDSFetcher } from 'api/modules/hello/datasources/hello_rds';
 

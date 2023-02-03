@@ -5,7 +5,7 @@ import { Hello } from '../models/hello'
 
 @injectable()
 class HelloLister implements HelloController {
-    @inject(TYPES.DataFetcher) private fetcher: DataFetcher
+    @inject(TYPES.DataFetcher) private fetcher!: DataFetcher;
 
     list(name: string): Hello[] {
         let result: Hello[] = [];

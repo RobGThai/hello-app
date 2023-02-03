@@ -1,12 +1,8 @@
-import {describe, expect, test} from '@jest/globals';
-import { error } from "console";
-import { beforeEach } from "node:test";
-
 import { DataFetcher, HelloController } from 'api/interfaces/hello'
 import { TYPES } from 'api/interfaces/types';
 
 import { Hello } from 'api/modules/hello/models/hello';
-import { HelloLister } from 'api/modules/hello/controllers/list';
+
 import { helloContainer } from 'api/inversify.config';
 
 describe('Create adapter', () => {
@@ -16,7 +12,7 @@ describe('Create adapter', () => {
   beforeEach(async () => {
     fetcher = {
       list(name?: string): Hello[] {
-        return [];
+        return [new Hello("Test")];
       }
     } as DataFetcher;
     helloContainer.rebind(TYPES.DataFetcher).toConstantValue(fetcher);
@@ -28,9 +24,9 @@ describe('Create adapter', () => {
   });
 
   test('Valid dependency', () => {
-    error(lister);
-    //const expected = [new Hello("John Doe"), new Hello("Jane Doe")];
-    //const result = lister.list("");
-    //expect(result).toBe(expected);
+    console.log(lister);
+    const expected = [new Hello("Test")];
+    const result = lister.list("");
+    expect(result).toStrictEqual(expected);
   });
 });

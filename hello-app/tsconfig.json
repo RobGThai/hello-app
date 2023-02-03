@@ -32,7 +32,8 @@
       "@/*": ["./src/*"]
     },
     "types": [
-      "reflect-metadata"
+      "reflect-metadata",
+      "jest"
     ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
