@@ -1,4 +1,4 @@
-import { Hello } from '../modules/hello/models/hello.js';
+import { Hello } from '../modules/hello/models/hello';
 
 export interface HelloController {
     /**
