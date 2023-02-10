@@ -16,11 +16,13 @@ class RDSFetcher implements DataFetcher {
         //Inject PostgresQL adapter here later.
     }
 
-    list(name?: string): Hello[] {
+    async list(name?: string): Promise<Hello[]> {
+        console.log("RDSFetcher:list");
         let result: Hello[] = [];
         let kw = (name === undefined) ? "": name; 
 
-        result = this.client.query(kw);
+        result = await this.client.query(kw);
+        console.log("Fetcher list result: %", result);
 
         return result;
     }

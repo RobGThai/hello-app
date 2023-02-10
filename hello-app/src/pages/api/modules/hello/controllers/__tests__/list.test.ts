@@ -14,19 +14,29 @@ describe('Create adapter', () => {
 
   beforeEach(async () => {
     client = {
-      query(message: string): Hello[] {
-        return [new Hello("Test")];
+      async query(message: string): Promise<Hello[]> {
+        console.log("Mocked client");
+        const p = new Promise<Hello[]>((ok, err) => {
+          ok([new Hello("Test")]);
+        });
+          
+        return p;
       }
     } as DataQuery;
     // fetcher = new RDSFetcher(client)
     fetcher = {
       client: client,
-      list(name?: string): Hello[] {
+      async list(name?: string): Promise<Hello[]> {
+        console.log("Mocked fetcher");
+        const p = new Promise<Hello[]>((res, rej) => {
+          res([new Hello("Test")]);
+        });
+          
         return [new Hello("Test")];
       }
     } as DataFetcher;
-    helloContainer.rebind(TYPES.DataQuery).toConstantValue(client);
-    fetcher = helloContainer.get<DataFetcher>(TYPES.DataFetcher); 
+//    helloContainer.rebind(TYPES.DataQuery).toConstantValue(client);
+//    fetcher = helloContainer.get<DataFetcher>(TYPES.DataFetcher); 
     helloContainer.rebind(TYPES.DataFetcher).toConstantValue(fetcher);
     lister = helloContainer.get<HelloController>(TYPES.HelloController); 
   });
@@ -35,10 +45,10 @@ describe('Create adapter', () => {
     expect(lister).toBeTruthy();
   });
 
-  test('Valid dependency', () => {
+  test('Valid dependency', async () => {
     console.log(lister);
     const expected = [new Hello("Test")];
-    const result = lister.list("");
+    const result = await lister.list("");
     expect(result).toStrictEqual(expected);
   });
 });

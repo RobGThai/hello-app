@@ -4,9 +4,9 @@ export interface HelloController {
     /**
      * list Hello from source
     **/
-    list(name?: string): Hello[];
+    list(name?: string): Promise<Hello[]>;
 }
 
 export interface DataFetcher {
-    list(name?: string): Hello[];
+    list(name?: string): Promise<Hello[]>;
 }

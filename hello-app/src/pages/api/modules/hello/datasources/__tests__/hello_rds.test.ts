@@ -13,9 +13,13 @@ describe('Create adapter', () => {
 
   beforeEach(async () => {
     let client: DataQuery;
-    client = { 
-      query(message: string): Hello[] {
-        return [new Hello("Test")];
+    client = {
+      query(message: string): Promise<Hello[]> {
+        const p = new Promise<Hello[]>((ok, err) => {
+          ok([new Hello("Test")]);
+        });
+          
+        return p;
       }
     } as DataQuery;
     helloContainer.rebind(TYPES.DataQuery).toConstantValue(client);

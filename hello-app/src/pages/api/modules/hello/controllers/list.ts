@@ -7,10 +7,9 @@ import { Hello } from '../models/hello'
 class HelloLister implements HelloController {
     @inject(TYPES.DataFetcher) private fetcher!: DataFetcher;
 
-    list(name: string): Hello[] {
+    async list(name: string): Promise<Hello[]> {
         let result: Hello[] = [];
-
-        return this.fetcher.list(name);
+        return await this.fetcher.list(name);
     }
 
 }

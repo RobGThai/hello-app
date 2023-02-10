@@ -7,13 +7,13 @@ import { Hello } from 'api/modules/hello/models/hello';
 import { helloContainer } from 'api/inversify.config';
 import { TYPES } from 'api/interfaces/types';
 
-function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Hello[]>
 ) {
   const lister: HelloController = helloContainer.get<HelloController>(TYPES.HelloController); 
   const query: DataQuery = helloContainer.get<DataQuery>(TYPES.DataQuery); 
-  const results = lister.list("John");
+  const results = await lister.list("John");
   res.status(200).json(results)
 }
 
