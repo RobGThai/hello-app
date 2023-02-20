@@ -7,6 +7,7 @@ import { RDSClient } from 'api/modules/hello/datasources/rds_client';
 import { RDSFetcher } from 'api/modules/hello/datasources/hello_rds';
 import { HelloLister } from 'api/modules/hello/controllers/list';
 
+
 const helloContainer = new Container();
 helloContainer.bind<DataQuery>(TYPES.DataQuery).to(RDSClient);
 helloContainer.bind<DataFetcher>(TYPES.DataFetcher).to(RDSFetcher);

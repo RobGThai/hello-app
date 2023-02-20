@@ -2,5 +2,5 @@
 
 
 ```
-docker run --name hello-db -e POSTGRES_PASSWORD=123password -e POSTGRES_USER=hello -e POSTGRES_DB=hellodb -d postgres
+docker run --name hello-db -e POSTGRES_PASSWORD=123password -e POSTGRES_USER=hello -e POSTGRES_DB=hellodb -d -p 5432:5432 postgres
 ```

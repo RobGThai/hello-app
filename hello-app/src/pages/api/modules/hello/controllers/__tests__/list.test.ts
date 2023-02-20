@@ -13,11 +13,14 @@ describe('Create adapter', () => {
   let client: DataQuery;
 
   beforeEach(async () => {
+    const h = Hello.build({
+      id: 0, message:"Test", sender:"SYS"
+    });
     client = {
       async query(message: string): Promise<Hello[]> {
         console.log("Mocked client");
         const p = new Promise<Hello[]>((ok, err) => {
-          ok([new Hello("Test")]);
+          ok([h]);
         });
           
         return p;
@@ -29,10 +32,10 @@ describe('Create adapter', () => {
       async list(name?: string): Promise<Hello[]> {
         console.log("Mocked fetcher");
         const p = new Promise<Hello[]>((res, rej) => {
-          res([new Hello("Test")]);
+          res([h]);
         });
           
-        return [new Hello("Test")];
+        return p;
       }
     } as DataFetcher;
 //    helloContainer.rebind(TYPES.DataQuery).toConstantValue(client);
@@ -47,7 +50,10 @@ describe('Create adapter', () => {
 
   test('Valid dependency', async () => {
     console.log(lister);
-    const expected = [new Hello("Test")];
+    const exp = Hello.build({
+      id: 0, message:"Test", sender:"SYS"
+    });
+    const expected = [exp];
     const result = await lister.list("");
     expect(result).toStrictEqual(expected);
   });
