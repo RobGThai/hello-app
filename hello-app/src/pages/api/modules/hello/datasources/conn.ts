@@ -20,4 +20,6 @@ const sequelize = new Sequelize({
 console.log("Creating connection");
 sequelize.addModels([Hello]);
 
+//sequelize.sync();
+
 export { sequelize };

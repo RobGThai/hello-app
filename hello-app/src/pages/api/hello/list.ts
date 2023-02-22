@@ -10,11 +10,11 @@ import { plainToClass } from 'class-transformer';
 
 async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Hello>
+  res: NextApiResponse<Hello[]>
 ) {
   switch(req.method) {
-    case "POST":
-      await poster(req, res);
+    case "GET":
+      await getter(req, res);
       break;
     default:
       console.log("Unsupported");
@@ -22,21 +22,18 @@ async function handler(
   }
 }
 
-async function poster(
+async function getter(
   req: NextApiRequest,
-  res: NextApiResponse<Hello>
+  res: NextApiResponse<Hello[]>
 ) {
-  const h = plainToClass(Hello, req.body);
-  console.log('BODY: %', req.body);
-  console.log('Hello: %', h);
   const lister: HelloController = helloContainer.get<HelloController>(TYPES.HelloController); 
-  try {
-    const ret = lister.post(h);
-    res.status(200).json(ret)
-  } catch (error) {
-    console.log("Post new message error: %", error);
-    res.status(500).json(error)
-  }
+  const query: DataQuery = helloContainer.get<DataQuery>(TYPES.DataQuery); 
+
+  const { kw } = req.query;
+
+  const results = await lister.list(kw);
+  res.status(200).json(results)
 }
+
 
 export default handler;

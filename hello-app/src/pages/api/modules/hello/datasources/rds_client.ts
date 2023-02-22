@@ -1,7 +1,8 @@
 import { injectable, inject } from 'inversify';
 import { DataQuery } from './interfaces/query';
 import { Hello } from '../models/hello';
-import { Sequelize, Op } from 'sequelize';
+import { Op } from 'sequelize';
+import { sequelize } from './conn';
 
 @injectable()
 class RDSClient implements DataQuery {
@@ -11,14 +12,6 @@ class RDSClient implements DataQuery {
   async query(message: string): Promise<Hello[]> {
     console.log("RDSClient:query");
     const ret: Hello[] = [];
-    const conf = {
-      "host": "localhost",
-      "port": 5432,
-      "user": "hello",
-      "password": "123password",
-      "database": "hellodb"
-    };
-    const sequelize = new Sequelize(conf.database, conf.user, conf.password, conf) // Example for postgres
 
     try {
       await sequelize.authenticate();
@@ -42,18 +35,23 @@ class RDSClient implements DataQuery {
       if(results.length === 0) {
         console.log("Empty result");
         const h = Hello.build({
-          id: 0, message:"Test", sender:"SYS"
+          id: 0, message:"Empty result", sender:"SYS"
         });
         ret.push(h);
       } else {
         ret.push(...results);
       }
     } finally {
-      console.log("Terminate connection");
-      await sequelize.close();
+      console.log("Release connection");
+      //await sequelize.connectionManager.releaseConnection();
     }
 
     return ret;
+  }
+
+  async save(h: Hello): Promise<Hello> {
+    console.log("RDSClient: Save");
+    return h.save()
   }
 }
 
